@@ -2,831 +2,270 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوت حجز العيادات | ClinicBot KSA</title>
-    <meta name="description" content="بوت واتساب ذكي لحجز المواعيد الطبية - حل آلي لعيادات الأسنان والجلدية والمراكز الطبية في السعودية">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>كلينيك بوت | حجز ذكي للعيادات</title>
+    <meta name="description" content="بوت واتساب ذكي لحجز المواعيد الطبية في السعودية. متاح ٢٤ ساعة، ثنائي اللغة.">
+    <meta name="theme-color" content="#0a0a0a">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --whatsapp-green: #25D366;
-            --whatsapp-dark: #075E54;
-            --whatsapp-light: #DCF8C6;
-            --whatsapp-bg: #ECE5DD;
-            --whatsapp-header: #128C7E;
-            --bot-bubble: #DCF8C6;
-            --user-bubble: #FFFFFF;
-            --text-primary: #111B21;
-            --text-secondary: #667781;
-            --gold: #D4A843;
-            --gold-light: #F5E6C8;
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --bg:#050505;--sf:#111;--sf2:#1a1a1a;--sf3:#222;
+            --bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.1);
+            --tx:#f5f5f5;--tx2:rgba(255,255,255,.6);--tx3:rgba(255,255,255,.35);
+            --wa:#25D366;--wa-dim:rgba(37,211,102,.12);--wa-glow:rgba(37,211,102,.3);
+            --grn:#00E676;--grn-dim:rgba(0,230,118,.15);
+            --r:16px;--rs:10px
         }
+        html{font-size:16px;-webkit-text-size-adjust:100%}
+        body{font-family:'Tajawal',-apple-system,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            min-height: 100vh;
-            color: var(--text-primary);
-        }
+        .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,5,.82);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--bd)}
+        .nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+        .nav-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--wa),#128C7E);display:flex;align-items:center;justify-content:center;font-size:.95rem}
+        .nav-text{font-weight:700;font-size:.9rem;color:var(--tx)}
+        .nav-right{display:flex;gap:.5rem;align-items:center}
+        .nav-lang{font-size:.72rem;font-weight:500;color:var(--tx2);text-decoration:none;padding:.3rem .65rem;border:1px solid var(--bd2);border-radius:8px;transition:.2s}
+        .nav-lang:hover{color:var(--tx);border-color:var(--wa)}
+        .nav-cta{font-size:.78rem;font-weight:600;color:#000;background:var(--wa);border:none;border-radius:8px;padding:.4rem .9rem;cursor:pointer;transition:.2s;text-decoration:none}
+        .nav-cta:hover{filter:brightness(1.1)}
 
-        /* Landing Page */
-        .landing {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+        .hero{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5.5rem 1.5rem 3rem;text-align:center;position:relative}
+        .hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,var(--wa-dim) 0%,transparent 70%);pointer-events:none}
+        .badge{display:inline-flex;align-items:center;gap:.45rem;background:var(--wa-dim);border:1px solid rgba(37,211,102,.2);border-radius:100px;padding:.35rem .9rem;font-size:.78rem;font-weight:500;color:var(--wa);margin-bottom:1.5rem;animation:up .6s ease}
+        .badge .dot{width:6px;height:6px;border-radius:50%;background:var(--wa);animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+        .hero h1{font-size:clamp(2rem,6vw,3.8rem);font-weight:800;line-height:1.15;letter-spacing:-.01em;max-width:660px;margin-bottom:1.1rem;animation:up .6s ease .1s both}
+        .hero h1 .g{background:linear-gradient(135deg,var(--wa),#00BFA5,var(--grn));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero .sub{font-size:clamp(.95rem,2.5vw,1.15rem);color:var(--tx2);max-width:480px;margin-bottom:2rem;animation:up .6s ease .2s both}
+        .hero-btns{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;animation:up .6s ease .3s both}
+        .btn-p{display:inline-flex;align-items:center;gap:.4rem;background:var(--wa);color:#000;font-weight:700;font-size:.9rem;padding:.8rem 1.6rem;border:none;border-radius:12px;cursor:pointer;transition:.2s;text-decoration:none;box-shadow:0 0 30px var(--wa-dim)}
+        .btn-p:hover{filter:brightness(1.1);transform:translateY(-1px)}
+        .btn-s{display:inline-flex;align-items:center;gap:.4rem;background:var(--sf2);color:var(--tx);font-weight:600;font-size:.9rem;padding:.8rem 1.6rem;border:1px solid var(--bd2);border-radius:12px;cursor:pointer;transition:.2s;text-decoration:none}
+        .btn-s:hover{border-color:var(--tx3)}
 
-        .hero {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-        }
+        .phone{margin-top:2.5rem;max-width:320px;width:100%;animation:up .8s ease .4s both}
+        .phone-fr{background:#000;border-radius:32px;padding:6px;border:1.5px solid var(--bd2);box-shadow:0 40px 80px rgba(0,0,0,.5),0 0 50px var(--wa-dim)}
+        .phone-scr{background:#0B141A;border-radius:26px;overflow:hidden}
+        .phone-hd{background:#1F2C34;padding:.7rem .9rem;display:flex;align-items:center;gap:.6rem}
+        .phone-av{width:34px;height:34px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+        .phone-nm{font-size:.82rem;font-weight:600}
+        .phone-st{font-size:.65rem;color:var(--wa)}
+        .phone-ch{padding:.7rem;min-height:220px;display:flex;flex-direction:column;gap:.35rem}
+        .m{max-width:82%;padding:.45rem .7rem;border-radius:10px;font-size:.75rem;line-height:1.6}
+        .m.b{align-self:flex-start;background:#1F2C34;border-bottom-left-radius:3px;border-bottom-right-radius:10px;color:var(--tx)}
+        .m.u{align-self:flex-end;background:#005C4B;border-bottom-right-radius:3px;border-bottom-left-radius:10px;color:var(--tx)}
+        .m .t{font-size:.55rem;color:rgba(255,255,255,.3);text-align:left;margin-top:2px}
+        .phone-opts{padding:.5rem;display:flex;gap:.25rem;flex-wrap:wrap}
+        .po{font-size:.65rem;padding:.3rem .7rem;border-radius:20px;background:transparent;border:1px solid var(--wa);color:var(--wa);cursor:default}
 
-        .hero-logo {
-            width: 80px;
-            height: 80px;
-            background: var(--whatsapp-green);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 32px rgba(37, 211, 102, 0.3);
-        }
+        .stats{padding:1.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;max-width:560px;margin:0 auto;background:var(--bd);border-radius:var(--r);overflow:hidden}
+        .stat{background:var(--sf);padding:1.4rem .8rem;text-align:center}
+        .stat-v{font-size:clamp(1.4rem,4vw,1.9rem);font-weight:800;background:linear-gradient(135deg,var(--wa),var(--grn));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .stat-l{font-size:.7rem;color:var(--tx2);margin-top:.2rem}
 
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
+        .sec{padding:4.5rem 1.5rem;max-width:1100px;margin:0 auto}
+        .sec-tag{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--wa);margin-bottom:.6rem}
+        .sec-t{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;letter-spacing:-.01em;margin-bottom:.6rem}
+        .sec-sub{color:var(--tx2);max-width:480px;font-size:.95rem;margin-bottom:2.2rem}
 
-        .hero h1 span {
-            color: var(--whatsapp-green);
-        }
+        .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1px;background:var(--bd);border-radius:var(--r);overflow:hidden}
+        .feat{background:var(--sf);padding:1.6rem;transition:.2s}
+        .feat:hover{background:var(--sf2)}
+        .feat-ic{width:38px;height:38px;border-radius:10px;background:var(--wa-dim);display:flex;align-items:center;justify-content:center;font-size:1.15rem;margin-bottom:.9rem}
+        .feat h3{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+        .feat p{font-size:.82rem;color:var(--tx2);line-height:1.7}
 
-        .hero .subtitle {
-            font-size: 1.2rem;
-            color: #a0b8c8;
-            margin-bottom: 2rem;
-            max-width: 500px;
-        }
+        .price-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:.85rem}
+        .pc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:1.8rem;display:flex;flex-direction:column;transition:.2s;position:relative}
+        .pc.pop{border-color:var(--wa);background:linear-gradient(180deg,rgba(37,211,102,.05) 0%,var(--sf) 100%)}
+        .pc.pop::after{content:'الأكثر طلباً';position:absolute;top:-10px;right:50%;transform:translateX(50%);background:var(--wa);color:#000;font-size:.62rem;font-weight:700;padding:.18rem .75rem;border-radius:100px;letter-spacing:.03em}
+        .pc-name{font-size:.8rem;font-weight:600;color:var(--tx2);margin-bottom:.4rem}
+        .pc-amt{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.2rem}
+        .pc-amt span{font-size:.9rem;font-weight:500;color:var(--tx2)}
+        .pc-per{font-size:.78rem;color:var(--tx3);margin-bottom:1.4rem}
+        .pc-feat{list-style:none;margin-bottom:1.8rem;flex:1}
+        .pc-feat li{font-size:.82rem;color:var(--tx2);padding:.35rem 0;display:flex;align-items:flex-start;gap:.45rem}
+        .pc-feat li::before{content:'✓';color:var(--wa);font-weight:700;flex-shrink:0}
+        .pc-btn{width:100%;padding:.75rem;border-radius:var(--rs);font-size:.85rem;font-weight:600;cursor:pointer;transition:.2s;text-align:center;font-family:'Tajawal',sans-serif}
+        .pc-btn.pri{background:var(--wa);color:#000;border:none}
+        .pc-btn.pri:hover{filter:brightness(1.1)}
+        .pc-btn.gho{background:transparent;color:var(--tx);border:1px solid var(--bd2)}
+        .pc-btn.gho:hover{border-color:var(--tx3)}
 
-        .hero .pain-points {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            max-width: 700px;
-            margin-bottom: 2rem;
-        }
+        .demo-wrap{max-width:380px;margin:0 auto;background:#000;border-radius:26px;overflow:hidden;border:1.5px solid var(--bd2);box-shadow:0 40px 80px rgba(0,0,0,.4)}
+        .demo-hd{background:#1F2C34;padding:.75rem .9rem;display:flex;align-items:center;gap:.6rem}
+        .demo-av{width:36px;height:36px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;font-size:1.05rem}
+        .demo-nm{font-size:.82rem;font-weight:600}
+        .demo-st{font-size:.65rem;color:var(--wa)}
+        .demo-chat{background:#0B141A;padding:.75rem;min-height:300px;max-height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:.35rem}
+        .db{max-width:82%;padding:.5rem .75rem;border-radius:10px;font-size:.8rem;line-height:1.6;animation:mi .3s ease}
+        .db.b{align-self:flex-start;background:#1F2C34;border-bottom-left-radius:3px;color:var(--tx)}
+        .db.u{align-self:flex-end;background:#005C4B;border-bottom-right-radius:3px;color:var(--tx)}
+        .db .t{font-size:.55rem;color:rgba(255,255,255,.3);text-align:left;margin-top:2px}
+        @keyframes mi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+        .demo-opts{padding:.5rem .7rem;display:flex;gap:.35rem;flex-wrap:wrap}
+        .do-btn{font-family:'Tajawal',sans-serif;font-size:.75rem;padding:.35rem .8rem;border-radius:20px;background:transparent;border:1px solid var(--wa);color:var(--wa);cursor:pointer;transition:.2s}
+        .do-btn:hover{background:var(--wa);color:#000}
+        .demo-bar{padding:.5rem .7rem;background:#1F2C34;display:flex;gap:.4rem;align-items:center}
+        .demo-inp{flex:1;border:none;border-radius:20px;padding:.45rem .8rem;background:#2A3942;color:var(--tx);font-family:'Tajawal',sans-serif;font-size:.82rem;outline:none}
+        .demo-inp::placeholder{color:rgba(255,255,255,.3)}
+        .demo-snd{width:34px;height:34px;border-radius:50%;background:var(--wa);border:none;color:#000;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .typing{display:flex;gap:3px;padding:.5rem .8rem;align-self:flex-start;background:#1F2C34;border-radius:10px;border-bottom-left-radius:3px}
+        .typing span{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.3);animation:td 1.4s infinite}
+        .typing span:nth-child(2){animation-delay:.2s}
+        .typing span:nth-child(3){animation-delay:.4s}
+        @keyframes td{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-4px);opacity:1}}
 
-        .pain-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 1.2rem;
-            text-align: center;
-        }
+        .cta{padding:4.5rem 1.5rem;text-align:center;position:relative}
+        .cta::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(circle,var(--wa-dim) 0%,transparent 70%);pointer-events:none}
+        .cta h2{font-size:clamp(1.6rem,5vw,2.6rem);font-weight:800;margin-bottom:.8rem;letter-spacing:-.01em}
+        .cta p{color:var(--tx2);margin-bottom:1.8rem;font-size:1rem}
+        .ft{border-top:1px solid var(--bd);padding:1.5rem;text-align:center;color:var(--tx3);font-size:.78rem}
+        .ft a{color:var(--wa);text-decoration:none}
 
-        .pain-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
-        .pain-card .label { color: #e0e0e0; font-size: 0.85rem; }
-        .pain-card .value { color: var(--whatsapp-green); font-weight: 700; font-size: 1.1rem; margin-top: 0.3rem; }
-
-        .cta-btn {
-            background: var(--whatsapp-green);
-            color: white;
-            border: none;
-            padding: 1rem 3rem;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
-        }
-
-        /* Features Section */
-        .features {
-            background: rgba(0,0,0,0.2);
-            padding: 3rem 2rem;
-        }
-
-        .features h2 {
-            text-align: center;
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-
-        .feature-card .emoji { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .feature-card h3 { color: var(--whatsapp-green); margin-bottom: 0.3rem; }
-        .feature-card p { color: #a0b8c8; font-size: 0.9rem; line-height: 1.6; }
-
-        /* Pricing Section */
-        .pricing {
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .pricing h2 {
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-        }
-
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .price-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            position: relative;
-        }
-
-        .price-card.popular {
-            border-color: var(--gold);
-            background: rgba(212, 168, 67, 0.08);
-        }
-
-        .price-card.popular::before {
-            content: 'الأكثر طلباً';
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            background: var(--gold);
-            color: #1a1a1a;
-            padding: 0.2rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-
-        .price-card h3 { color: white; font-size: 1.1rem; margin-bottom: 0.5rem; }
-        .price-card .price { color: var(--whatsapp-green); font-size: 2rem; font-weight: 900; }
-        .price-card .price-note { color: #888; font-size: 0.85rem; margin-bottom: 1rem; }
-        .price-card ul { list-style: none; text-align: right; margin-bottom: 1.5rem; }
-        .price-card li { color: #a0b8c8; padding: 0.3rem 0; font-size: 0.9rem; }
-        .price-card li::before { content: '✓ '; color: var(--whatsapp-green); }
-
-        /* WhatsApp Demo */
-        .demo-section {
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .demo-section h2 {
-            color: white;
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .demo-section .demo-sub {
-            color: #a0b8c8;
-            margin-bottom: 2rem;
-        }
-
-        .whatsapp-container {
-            max-width: 420px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-        }
-
-        .wa-header {
-            background: var(--whatsapp-header);
-            color: white;
-            padding: 1rem 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .wa-avatar {
-            width: 42px;
-            height: 42px;
-            background: var(--whatsapp-green);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-        }
-
-        .wa-name { font-weight: 700; font-size: 0.95rem; }
-        .wa-status { font-size: 0.75rem; opacity: 0.8; }
-
-        .wa-chat {
-            background: var(--whatsapp-bg);
-            padding: 1rem;
-            min-height: 350px;
-            max-height: 450px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .wa-bubble {
-            max-width: 85%;
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .wa-bubble.bot {
-            align-self: flex-start;
-            background: white;
-            border-top-right-radius: 0;
-        }
-
-        .wa-bubble.user {
-            align-self: flex-end;
-            background: var(--bot-bubble);
-            border-top-left-radius: 0;
-        }
-
-        .wa-bubble .time {
-            font-size: 0.65rem;
-            color: var(--text-secondary);
-            text-align: left;
-            margin-top: 0.3rem;
-        }
-
-        .wa-options {
-            padding: 0.8rem 1rem;
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .wa-opt-btn {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            padding: 0.5rem 1.2rem;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .wa-opt-btn:hover {
-            background: var(--whatsapp-green);
-            color: white;
-            border-color: var(--whatsapp-green);
-        }
-
-        .wa-input-area {
-            padding: 0.8rem;
-            background: #f0f0f0;
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .wa-input {
-            flex: 1;
-            border: none;
-            border-radius: 20px;
-            padding: 0.6rem 1rem;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 0.9rem;
-            outline: none;
-        }
-
-        .wa-send {
-            width: 40px;
-            height: 40px;
-            background: var(--whatsapp-green);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .typing-indicator {
-            align-self: flex-start;
-            background: white;
-            border-radius: 8px;
-            border-top-right-radius: 0;
-            padding: 0.8rem 1.2rem;
-            display: flex;
-            gap: 4px;
-        }
-
-        .typing-indicator span {
-            width: 8px;
-            height: 8px;
-            background: #999;
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-6px); opacity: 1; }
-        }
-
-        .hidden { display: none !important; }
-
-        /* Footer */
-        .footer {
-            background: rgba(0,0,0,0.3);
-            padding: 2rem;
-            text-align: center;
-            color: #666;
-            font-size: 0.85rem;
-        }
-
-        .footer a { color: var(--whatsapp-green); text-decoration: none; }
-
-        .lang-switch {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1000;
-            display: flex;
-            gap: 0.5rem;
-        }
-        .lang-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 8px;
-            font-family: "Tajawal", sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .lang-btn:hover, .lang-btn.active {
-            background: var(--whatsapp-green);
-            border-color: var(--whatsapp-green);
-        }
-
-/* Responsive */
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 1.8rem; }
-            .pain-points { grid-template-columns: 1fr 1fr; }
-            .pricing-cards { grid-template-columns: 1fr; }
-        }
+        @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+        @media(max-width:640px){.nav{padding:.65rem 1rem}.hero{padding:4.5rem 1.2rem 2rem}.sec{padding:3rem 1.2rem}.stats{margin:0 1.2rem}.phone{margin-top:2rem}.cta{padding:3rem 1.2rem}}
     </style>
 </head>
-<div class="lang-switch">
-        <span class="lang-btn active">العربية</span>
-        <a href="en.html" class="lang-btn">English</a>
-    </div>
 <body>
-    <div class="landing">
-        <!-- Hero -->
-        <section class="hero">
-            <div class="hero-logo">🏥</div>
-            <h1>بوت <span>حجز الذكي</span> لعياداتك</h1>
-            <p class="subtitle">بوت واتساب آلي يحجز المواعيد، يذكّر المرضى، ويمنّع الموعد الفارغ — ٢٤ ساعة باليوم</p>
-            
-            <div class="pain-points">
-                <div class="pain-card">
-                    <div class="icon">📞</div>
-                    <div class="label">مكالمات ضائعة شهرياً</div>
-                    <div class="value">٤٠ - ١٢٠</div>
-                </div>
-                <div class="pain-card">
-                    <div class="icon">💸</div>
-                    <div class="label">خسارة شهرية تقديرية</div>
-                    <div class="value">٤,٠٠٠ - ١٢,٠٠٠ ر.س</div>
-                </div>
-                <div class="pain-card">
-                    <div class="icon">⏰</div>
-                    <div class="label">نسبة عدم الحضور</div>
-                    <div class="value">٢٠ - ٣٠%</div>
-                </div>
-            </div>
+    <nav class="nav">
+        <a href="#" class="nav-logo"><div class="nav-icon">🏥</div><span class="nav-text">كلينيك بوت</span></a>
+        <div class="nav-right">
+            <a href="en.html" class="nav-lang">English</a>
+            <a href="#demo" class="nav-cta">تجربة</a>
+        </div>
+    </nav>
 
-            <button class="cta-btn" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
-                جرّب البوت الآن 👇
-            </button>
-        </section>
-
-        <!-- Features -->
-        <section class="features">
-            <h2>مميزات البوت</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="emoji">💬</div>
-                    <h3>حجز بالعربي والإنجليزي</h3>
-                    <p>يستقبل الرسائل ويرد باللغة المفضلة للعميل تلقائياً</p>
-                </div>
-                <div class="feature-card">
-                    <div class="emoji">📅</div>
-                    <h3>عرض المواعيد المتاحة</h3>
-                    <p>يربط مباشرة بنظام العيادة ويُظهر الأوقات الفارغة</p>
-                </div>
-                <div class="feature-card">
-                    <div class="emoji">🔔</div>
-                    <h3>تذكير آلي</h3>
-                    <p>يرسل تذكير قبل الموعد بـ ٢٤ ساعة و ٢ ساعة — يقلل عدم الحضور ٦٠%</p>
-                </div>
-                <div class="feature-card">
-                    <div class="emoji">📋</div>
-                    <h3>تقرير يومي</h3>
-                    <p>ملخص يومي للحجوزات والإلغاءات والتأكيدات على واتساب</p>
-                </div>
-                <div class="feature-card">
-                    <div class="emoji">🕐</div>
-                    <h3>يعمل ٢٤/٧</h3>
-                    <p>لا ينام، لا يمرض، لا يغيب — يحجز بعد الساعة ١٢ بدون موظف ليلي</p>
-                </div>
-                <div class="feature-card">
-                    <div class="emoji">🔄</div>
-                    <h3>إعادة الجدولة</h3>
-                    <p>العميل يُلغي ويعيد الحجز بنفسه بدون تدخل الموظفين</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Pricing -->
-        <section class="pricing">
-            <h2>باقات الأسعار</h2>
-            <div class="pricing-cards">
-                <div class="price-card">
-                    <h3>الباقة الأساسية</h3>
-                    <div class="price">٣,٠٠٠ ر.س</div>
-                    <div class="price-note">دفعة واحدة + إعداد</div>
-                    <ul>
-                        <li>بوت حجز مواعيد واحد</li>
-                        <li>لغة عربية أو إنجليزية</li>
-                        <li>تذكير آلي للمواعيد</li>
-                        <li>تقرير أسبوعي</li>
-                        <li>دعم فني ٣ أشهر</li>
-                    </ul>
-                </div>
-                <div class="price-card popular">
-                    <h3>الباقة المتقدمة</h3>
-                    <div class="price">٥,٠٠٠ ر.س</div>
-                    <div class="price-note">دفعة واحدة + ٨٠٠ ر.س/شهر</div>
-                    <ul>
-                        <li>كل مميزات الأساسية</li>
-                        <li>ثنائي اللغة (عربي + إنجليزي)</li>
-                        <li>ربط مع نظام العيادة</li>
-                        <li>تقرير يومي آلي</li>
-                        <li>إعادة جدولة ذاتية</li>
-                        <li>دعم فني ١٢ شهر</li>
-                    </ul>
-                </div>
-                <div class="price-card">
-                    <h3>باقة العيادات المتعددة</h3>
-                    <div class="price">١٠,٠٠٠ ر.س</div>
-                    <div class="price-note">دفعة واحدة + ١,٥٠٠ ر.س/شهر</div>
-                    <ul>
-                        <li>كل مميزات المتقدمة</li>
-                        <li>حتى ٥ فروع</li>
-                        <li>لوحة تحكم مركزية</li>
-                        <li>إحصائيات متقدمة</li>
-                        <li>أولوية في الدعم</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Interactive Demo -->
-        <section class="demo-section" id="demo">
-            <h2>جرّب البوت مباشرة</h2>
-            <p class="demo-sub">تفاعل مع محاكاة حقيقية لبوت حجز العيادة</p>
-            
-            <div class="whatsapp-container">
-                <div class="wa-header">
-                    <div class="wa-avatar">🦷</div>
-                    <div>
-                        <div class="wa-name">عيادة الابتسامة لطب الأسنان</div>
-                        <div class="wa-status">متصل الآن</div>
+    <section class="hero">
+        <div class="badge"><span class="dot"></span> متوفر الآن في السعودية</div>
+        <h1>مستقبلك <span class="g">الذكي</span> اللي ما ينام</h1>
+        <p class="sub">بوت واتساب يحجز المواعيد تلقائي، ثنائي اللغة، شغال ٢٤ ساعة — خلاص انتهى زمن المكالمات الضائعة.</p>
+        <div class="hero-btns">
+            <a href="#demo" class="btn-p">▶ تجربة مباشرة</a>
+            <a href="#pricing" class="btn-s">الأسعار</a>
+        </div>
+        <div class="phone">
+            <div class="phone-fr">
+                <div class="phone-scr">
+                    <div class="phone-hd"><div class="phone-av">🦷</div><div><div class="phone-nm">عيادة الابتسامة</div><div class="phone-st">متصل</div></div></div>
+                    <div class="phone-ch">
+                        <div class="m b">أهلاً! 🦷 كيف أقدر أساعدك؟<div class="t">١٠:٤٢ ص</div></div>
+                        <div class="m u">أبغى أحجز تنظيف أسنان<div class="t">١٠:٤٢ ص ✓✓</div></div>
+                        <div class="m b">تنظيف أسنان — ٣٠٠ ر.س<br>متاح اليوم:<br>٤:٠٠ م · ٤:٣٠ م · ٥:٣٠ م<div class="t">١٠:٤٢ ص</div></div>
+                        <div class="m u">٤:٣٠ م لو سمحت 🙏<div class="t">١٠:٤٣ ص ✓✓</div></div>
+                        <div class="m b">✅ تم الحجز!<br>🕐 ٤:٣٠ م اليوم<br>🔔 تذكير قبل ٢٤ ساعة<div class="t">١٠:٤٣ ص</div></div>
                     </div>
-                </div>
-                <div class="wa-chat" id="chatArea"></div>
-                <div class="wa-options" id="optionsArea"></div>
-                <div class="wa-input-area">
-                    <input class="wa-input" id="userInput" type="text" placeholder="اكتب رسالتك..." disabled>
-                    <button class="wa-send" id="sendBtn" disabled onclick="sendUserMessage()">➤</button>
+                    <div class="phone-opts"><span class="po">📅 حجز</span><span class="po">🔍 استعلام</span><span class="po">❌ إلغاء</span></div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <footer class="footer">
-            <p>مشروع ClinicBot KSA — حل آلي لحجز المواعيد الطبية</p>
-            <p style="margin-top: 0.5rem;">من تصميم <a href="#">PeopleSafetyLab</a></p>
-        </footer>
+    <div class="stats">
+        <div class="stat"><div class="stat-v">٦٠٪</div><div class="stat-l">تقليل عدم الحضور</div></div>
+        <div class="stat"><div class="stat-v">٢٤/٧</div><div class="stat-l">متاح دائماً</div></div>
+        <div class="stat"><div class="stat-v">٢×</div><div class="stat-l">زيادة الحجوزات</div></div>
     </div>
 
-    <script>
-        const chatArea = document.getElementById('chatArea');
-        const optionsArea = document.getElementById('optionsArea');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
+    <section class="sec" id="features">
+        <div class="sec-tag">المميزات</div>
+        <h2 class="sec-t">كل اللي تحتاجه استقبالك</h2>
+        <p class="sec-sub">أتمت كامل عملية الحجز — من أول تواصل لتذكير الموعد.</p>
+        <div class="feat-grid">
+            <div class="feat"><div class="feat-ic">💬</div><h3>ثنائي اللغة</h3><p>يرد عربي وإنجليزي حسب لغة المريض تلقائياً.</p></div>
+            <div class="feat"><div class="feat-ic">📅</div><h3>مواعيد مباشرة</h3><p>يربط بنظام العيادة ويوفر الأوقات الفارغة لحظياً.</p></div>
+            <div class="feat"><div class="feat-ic">🔔</div><h3>تذكير ذكي</h3><p>تذكير قبل ٢٤ ساعة و ٢ ساعة يقلل عدم الحضور ٦٠٪.</p></div>
+            <div class="feat"><div class="feat-ic">📋</div><h3>تقارير يومية</h3><p>ملخص الحجوزات والإلغاءات على واتساب.</p></div>
+            <div class="feat"><div class="feat-ic">🔄</div><h3>إعادة جدولة</h3><p>العميل يلغي ويعيد الحجز بنفسه بدون تدخل.</p></div>
+            <div class="feat"><div class="feat-ic">🔒</div><h3>آمن ومتوافق</h3><p>بيانات مشفرة ومتوافق مع نظام حماية البيانات.</p></div>
+        </div>
+    </section>
 
-        function getTime() {
-            const now = new Date();
-            return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        }
+    <section class="sec" id="pricing">
+        <div class="sec-tag">الأسعار</div>
+        <h2 class="sec-t">أسعار بسيطة وشفافة</h2>
+        <p class="sec-sub">بدون رسوم مخفية. بدون رسوم لكل رسالة.</p>
+        <div class="price-grid">
+            <div class="pc">
+                <div class="pc-name">الأساسية</div>
+                <div class="pc-amt">٣,٠٠٠ ر.س</div>
+                <div class="pc-per">دفعة واحدة + إعداد</div>
+                <ul class="pc-feat"><li>بوت حجز واحد</li><li>عربي أو إنجليزي</li><li>تذكير آلي</li><li>تقرير أسبوعي</li><li>دعم ٣ أشهر</li></ul>
+                <button class="pc-btn gho">ابدأ الآن</button>
+            </div>
+            <div class="pc pop">
+                <div class="pc-name">المتقدمة</div>
+                <div class="pc-amt">٥,٠٠٠ ر.س</div>
+                <div class="pc-per">دفعة واحدة + <span>٨٠٠ ر.س/شهر</span></div>
+                <ul class="pc-feat"><li>كل مميزات الأساسية</li><li>ثنائي اللغة</li><li>ربط بالنظام</li><li>تقرير يومي</li><li>إعادة جدولة ذاتية</li><li>دعم ١٢ شهر</li></ul>
+                <button class="pc-btn pri">ابدأ الآن</button>
+            </div>
+            <div class="pc">
+                <div class="pc-name">متعددة الفروع</div>
+                <div class="pc-amt">١٠,٠٠٠ ر.س</div>
+                <div class="pc-per">دفعة واحدة + <span>١,٥٠٠ ر.س/شهر</span></div>
+                <ul class="pc-feat"><li>كل مميزات المتقدمة</li><li>حتى ٥ فروع</li><li>لوحة مركزية</li><li>إحصائيات متقدمة</li><li>أولوية الدعم</li></ul>
+                <button class="pc-btn gho">تواصل معنا</button>
+            </div>
+        </div>
+    </section>
 
-        function addBotMessage(text, delay = 0) {
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    // Show typing indicator
-                    const typing = document.createElement('div');
-                    typing.className = 'typing-indicator';
-                    typing.innerHTML = '<span></span><span></span><span></span>';
-                    chatArea.appendChild(typing);
-                    chatArea.scrollTop = chatArea.scrollHeight;
+    <section class="sec" id="demo">
+        <div class="sec-tag">تجربة مباشرة</div>
+        <h2 class="sec-t">جرّب البوت الآن</h2>
+        <p class="sec-sub">محاكاة تفاعلية كاملة. ابدأ واحجز موعد.</p>
+        <div class="demo-wrap">
+            <div class="demo-hd"><div class="demo-av">🦷</div><div><div class="demo-nm">عيادة الابتسامة</div><div class="demo-st">متصل</div></div></div>
+            <div class="demo-chat" id="C"></div>
+            <div class="demo-opts" id="O"></div>
+            <div class="demo-bar"><input class="demo-inp" id="I" placeholder="اكتب رسالتك..." disabled><button class="demo-snd" id="S" disabled onclick="snd()">➤</button></div>
+        </div>
+    </section>
 
-                    setTimeout(() => {
-                        chatArea.removeChild(typing);
-                        const bubble = document.createElement('div');
-                        bubble.className = 'wa-bubble bot';
-                        bubble.innerHTML = text + '<div class="time">' + getTime() + '</div>';
-                        chatArea.appendChild(bubble);
-                        chatArea.scrollTop = chatArea.scrollHeight;
-                        resolve();
-                    }, 800 + Math.random() * 600);
-                }, delay);
-            });
-        }
+    <section class="cta">
+        <h2>خلاص انتهى زمن<br><span style="color:var(--wa)">المكالمات الضائعة</span></h2>
+        <p>شغّل بوت الحجز خلال ٤٨ ساعة.</p>
+        <div class="hero-btns" style="justify-content:center"><a href="#pricing" class="btn-p">ابدأ الآن — ٣,٠٠٠ ر.س</a></div>
+    </section>
 
-        function addUserMessage(text) {
-            const bubble = document.createElement('div');
-            bubble.className = 'wa-bubble user';
-            bubble.innerHTML = text + '<div class="time">' + getTime() + ' ✓✓</div>';
-            chatArea.appendChild(bubble);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
+    <footer class="ft"><p>من تطوير <a href="https://peoplesafetylab.com" target="_blank">PeopleSafetyLab</a></p></footer>
 
-        function showOptions(options) {
-            optionsArea.innerHTML = '';
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'wa-opt-btn';
-                btn.textContent = opt.label;
-                btn.onclick = () => {
-                    optionsArea.innerHTML = '';
-                    addUserMessage(opt.label);
-                    handleFlow(opt.value);
-                };
-                optionsArea.appendChild(btn);
-            });
-        }
+<script>
+const C=document.getElementById('C'),O=document.getElementById('O'),I=document.getElementById('I'),S=document.getElementById('S');
+let _svc,_day,_tm,_nm,_nx;
+function ts(){const n=new Date();return n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0')}
+function bm(t,d=0){return new Promise(r=>{setTimeout(()=>{const e=document.createElement('div');e.className='typing';e.innerHTML='<span></span><span></span><span></span>';C.appendChild(e);C.scrollTop=C.scrollHeight;setTimeout(()=>{C.removeChild(e);const b=document.createElement('div');b.className='db b';b.innerHTML=t.replace(/\n/g,'<br>')+'<div class="t">'+ts()+'</div>';C.appendChild(b);C.scrollTop=C.scrollHeight;r()},600+Math.random()*400)},d)})}
+function um(t){const b=document.createElement('div');b.className='db u';b.innerHTML=t+'<div class="t">'+ts()+' ✓✓</div>';C.appendChild(b);C.scrollTop=C.scrollHeight}
+function so(ops){O.innerHTML='';ops.forEach(o=>{const b=document.createElement('button');b.className='do-btn';b.textContent=o.l;b.onclick=()=>{O.innerHTML='';um(o.l);fl(o.v)};O.appendChild(b)})}
+function en(){I.disabled=false;S.disabled=false;I.focus()}
+function ds(){I.disabled=true;S.disabled=true}
+function snd(){const t=I.value.trim();if(!t)return;um(t);I.value='';fl(t)}
+I.addEventListener('keypress',e=>{if(e.key==='Enter')snd()});
 
-        function enableInput() {
-            userInput.disabled = false;
-            sendBtn.disabled = false;
-            userInput.focus();
-        }
-
-        function disableInput() {
-            userInput.disabled = true;
-            sendBtn.disabled = true;
-        }
-
-        function sendUserMessage() {
-            const text = userInput.value.trim();
-            if (!text) return;
-            addUserMessage(text);
-            userInput.value = '';
-            handleFlow(text);
-        }
-
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendUserMessage();
-        });
-
-        // Conversation Flow
-        async function handleFlow(input) {
-            disableInput();
-
-            switch(input) {
-                case 'START':
-                    await addBotMessage('أهلاً وسهلاً! 🦷\n\nأنا مساعد حجوزات عيادة الابتسامة لطب الأسنان.\n\nكيف أقدر أساعدك اليوم؟', 300);
-                    showOptions([
-                        { label: '📅 حجز موعد جديد', value: 'NEW_APPT' },
-                        { label: '🔍 الاستعلام عن موعد', value: 'CHECK_APPT' },
-                        { label: '❌ إلغاء موعد', value: 'CANCEL_APPT' },
-                        { label: 'ℹ️ معلومات العيادة', value: 'INFO' }
-                    ]);
-                    break;
-
-                case 'NEW_APPT':
-                    await addBotMessage('تمام! خلنا نحجز لك موعد 📅\n\nأي خدمة تحتاج؟', 300);
-                    showOptions([
-                        { label: '🦷 فحص أسنان عام', value: 'SERVICE_GENERAL' },
-                        { label: '✨ تنظيف وتبييض', value: 'SERVICE_CLEANING' },
-                        { label: '🔧 حشو أو علاج عصب', value: 'SERVICE_FILING' },
-                        { label: '🎁 تثبيت أسنان', value: 'SERVICE_IMPLANT' }
-                    ]);
-                    break;
-
-                case 'CHECK_APPT':
-                    await addBotMessage('أبغى أتحقق من موعدك 📋\n\nأدخل رقم الجوال أو رقم الموعد:', 300);
-                    enableInput();
-                    // next input goes to CHECK_LOOKUP
-                    userInput.setAttribute('data-next', 'CHECK_LOOKUP');
-                    break;
-
-                case 'CANCEL_APPT':
-                    await addBotMessage('للأسف تبي تلغي الموعد 😔\n\nأدخل رقم الموعد أو رقم الجوال عشان أبحث عنه:', 300);
-                    enableInput();
-                    userInput.setAttribute('data-next', 'CANCEL_LOOKUP');
-                    break;
-
-                case 'INFO':
-                    await addBotMessage('🏥 عيادة الابتسامة لطب الأسنان\n\n📍 الرياض، حي الملقا، شارع الأمير محمد بن عبدالعزيز\n🕐 من السبت للخميس: ٤:٠٠ م - ١٠:٠٠ م\n📞 للطوارئ: ٠٥٠-XXX-XXXX\n\nالدكتور: د. أحمد الغامدي\nتخصص: تقويم وزراعة أسنان\n\nهل تبي تحجز موعد؟ 😊', 300);
-                    showOptions([
-                        { label: '📅 نعم، حجز موعد', value: 'NEW_APPT' },
-                        { label: '🔙 رجوع', value: 'START' }
-                    ]);
-                    break;
-
-                case 'SERVICE_GENERAL':
-                case 'SERVICE_CLEANING':
-                case 'SERVICE_FILING':
-                case 'SERVICE_IMPLANT':
-                    const serviceNames = {
-                        'SERVICE_GENERAL': 'فحص أسنان عام',
-                        'SERVICE_CLEANING': 'تنظيف وتبييض',
-                        'SERVICE_FILING': 'حشو أو علاج عصب',
-                        'SERVICE_IMPLANT': 'تثبيت أسنان'
-                    };
-                    const servicePrices = {
-                        'SERVICE_GENERAL': '١٥٠',
-                        'SERVICE_CLEANING': '٣٠٠',
-                        'SERVICE_FILING': '٤٠٠-٨٠٠',
-                        'SERVICE_IMPLANT': '٣,٠٠٠-٨,٠٠٠'
-                    };
-                    window._selectedService = serviceNames[input];
-                    await addBotMessage(`✅ اخترت: ${serviceNames[input]}\n\n💰 السعر التقريبي: ${servicePrices[input]} ر.س\n\nأي يوم يناسبك؟`, 300);
-                    showOptions([
-                        { label: '📅 اليوم', value: 'DAY_TODAY' },
-                        { label: '📅 بكرة', value: 'DAY_TOMORROW' },
-                        { label: '📅 هذا الأسبوع', value: 'DAY_WEEK' }
-                    ]);
-                    break;
-
-                case 'DAY_TODAY':
-                case 'DAY_TOMORROW':
-                case 'DAY_WEEK':
-                    const dayLabels = { 'DAY_TODAY': 'اليوم', 'DAY_TOMORROW': 'بكرة', 'DAY_WEEK': 'هذا الأسبوع' };
-                    window._selectedDay = dayLabels[input];
-                    await addBotMessage(`تمام، ${dayLabels[input]} 👍\n\nالمواعيد المتاحة:`);
-                    await addBotMessage(`📅 ٤:٠٠ م - متاح\n📅 ٤:٣٠ م - متاح\n📅 ٥:٠٠ م - محجوز\n📅 ٥:٣٠ م - متاح\n📅 ٦:٠٠ م - متاح\n📅 ٦:٣٠ م - متاح`, 300);
-                    showOptions([
-                        { label: '🕐 ٤:٠٠ م', value: 'TIME_1600' },
-                        { label: '🕐 ٤:٣٠ م', value: 'TIME_1630' },
-                        { label: '🕐 ٥:٣٠ م', value: 'TIME_1730' },
-                        { label: '🕐 ٦:٠٠ م', value: 'TIME_1800' },
-                        { label: '🕐 ٦:٣٠ م', value: 'TIME_1830' },
-                        { label: '🔙 رجوع للخدمات', value: 'NEW_APPT' }
-                    ]);
-                    break;
-
-                default:
-                    if (input.startsWith('TIME_')) {
-                        const timeMap = {
-                            'TIME_1600': '٤:٠٠ م', 'TIME_1630': '٤:٣٠ م',
-                            'TIME_1730': '٥:٣٠ م', 'TIME_1800': '٦:٠٠ م', 'TIME_1830': '٦:٣٠ م'
-                        };
-                        const timeStr = timeMap[input] || input;
-                        await addBotMessage('الرجاء إدخال اسمك الكامل:', 300);
-                        enableInput();
-                        window._selectedTime = timeStr;
-                        userInput.setAttribute('data-next', 'NAME_INPUT');
-                    } else if (userInput.getAttribute('data-next') === 'NAME_INPUT') {
-                        window._userName = input;
-                        await addBotMessage('شكراً ' + input + ' 👋\n\nأدخل رقم الجوال:', 300);
-                        enableInput();
-                        userInput.setAttribute('data-next', 'PHONE_INPUT');
-                    } else if (userInput.getAttribute('data-next') === 'PHONE_INPUT') {
-                        window._userPhone = input;
-                        await addBotMessage('⏳ جاري تأكيد الحجز...', 500);
-                        await addBotMessage(
-                            `✅ تم الحجز بنجاح!\n\n` +
-                            `📋 ملخص الحجز:\n` +
-                            `👤 الاسم: ${window._userName}\n` +
-                            `📞 الجوال: ${input}\n` +
-                            `🦷 الخدمة: ${window._selectedService}\n` +
-                            `📅 اليوم: ${window._selectedDay}\n` +
-                            `🕐 الوقت: ${window._selectedTime}\n` +
-                            `🏥 العيادة: عيادة الابتسامة\n\n` +
-                            `🔔 رح أذكّرك قبل الموعد بـ ٢٤ ساعة و ٢ ساعة.\n\n` +
-                            `هل تحتاج شيء ثاني؟ 😊`, 1000
-                        );
-                        showOptions([
-                            { label: '📅 حجز موعد آخر', value: 'NEW_APPT' },
-                            { label: '🔙 القائمة الرئيسية', value: 'START' },
-                            { label: '👋 لا، شكراً', value: 'BYE' }
-                        ]);
-                        userInput.removeAttribute('data-next');
-                    } else if (userInput.getAttribute('data-next') === 'CHECK_LOOKUP') {
-                        await addBotMessage(
-                            `📋 الموعد القادم:\n\n` +
-                            `📅 تاريخ: الأحد ٢٩ مارس ٢٠٢٦\n` +
-                            `🕐 الوقت: ٥:٠٠ م\n` +
-                            `🦷 الخدمة: تنظيف أسنان\n` +
-                            `👨‍⚕️ الطبيب: د. أحمد الغامدي\n\n` +
-                            `رقم الموعد: #A-1047`, 300
-                        );
-                        showOptions([
-                            { label: '❌ إلغاء هذا الموعد', value: 'CANCEL_APPT' },
-                            { label: '🔙 رجوع', value: 'START' }
-                        ]);
-                        userInput.removeAttribute('data-next');
-                    } else if (userInput.getAttribute('data-next') === 'CANCEL_LOOKUP') {
-                        await addBotMessage('⚠️ تأكيد إلغاء الموعد؟', 300);
-                        showOptions([
-                            { label: '✅ نعم، ألغي', value: 'CONFIRM_CANCEL' },
-                            { label: '🔙 لا، رجوع', value: 'START' }
-                        ]);
-                        userInput.removeAttribute('data-next');
-                    } else if (input === 'CONFIRM_CANCEL') {
-                        await addBotMessage('✅ تم إلغاء الموعد بنجاح.\n\nهل تبي تحجز موعد ثاني؟', 300);
-                        showOptions([
-                            { label: '📅 نعم', value: 'NEW_APPT' },
-                            { label: '👋 لا، شكراً', value: 'BYE' }
-                        ]);
-                    } else if (input === 'BYE') {
-                        await addBotMessage('الله يعافيك! 😊\n\nعيادة الابتسامة تتمنى لك يوم سعيد 🦷✨\n\nإذا احتجت أي شيء، رجع لنا أي وقت!', 300);
-                        optionsArea.innerHTML = '';
-                        setTimeout(() => {
-                            showOptions([
-                                { label: '📅 حجز موعد', value: 'NEW_APPT' },
-                                { label: 'ℹ️ معلومات العيادة', value: 'INFO' }
-                            ]);
-                        }, 2000);
-                    } else {
-                        await addBotMessage('عذراً، ما فهمت رسالتك 😅\n\nاختر من الخيارات التالية:', 300);
-                        showOptions([
-                            { label: '📅 حجز موعد', value: 'NEW_APPT' },
-                            { label: '🔍 استعلام', value: 'CHECK_APPT' },
-                            { label: 'ℹ️ معلومات', value: 'INFO' }
-                        ]);
-                    }
-                    break;
-            }
-        }
-
-        // Start the demo on page load
-        window.addEventListener('load', () => {
-            setTimeout(() => handleFlow('START'), 500);
-        });
-    </script>
+async function fl(i){
+    ds();
+    const services={GENERAL:'فحص أسنان عام — ١٥٠ ر.س',CLEAN:'تنظيف وتبييض — ٣٠٠ ر.س',FILL:'حشو أو علاج عصب — ٤٠٠-٨٠٠ ر.س',IMPLANT:'تثبيت أسنان — ٣,٠٠٠-٨,٠٠٠ ر.س'};
+    const times=['٤:٠٠ م','٤:٣٠ م','٥:٣٠ م','٦:٠٠ م','٦:٣٠ م'];
+    if(i==='START'){await bm('أهلاً وسهلاً! 👋 عيادة الابتسامة ترحب فيك.\n\nكيف أقدر أساعدك؟');so([{l:'📅 حجز موعد',v:'BOOK'},{l:'🔍 استعلام عن موعد',v:'CHK'},{l:'❌ إلغاء موعد',v:'CNL'},{l:'ℹ️ معلومات العيادة',v:'INFO'}])}
+    else if(i==='BOOK'){await bm('أي خدمة تحتاج؟');so([{l:'🦷 فحص عام',v:'SV_GENERAL'},{l:'✨ تنظيف وتبييض',v:'SV_CLEAN'},{l:'🔧 حشو / علاج عصب',v:'SV_FILL'},{l:'🎁 تثبيت أسنان',v:'SV_IMPLANT'}])}
+    else if(i.startsWith('SV_')){const k=i.replace('SV_','');_svc=services[k];await bm('✅ '+_svc+'\n\nأي يوم يناسبك؟');so([{l:'📅 اليوم',v:'DAY_T'},{l:'📅 بكرة',v:'DAY_M'},{l:'📅 هذا الأسبوع',v:'DAY_W'}])}
+    else if(i.startsWith('DAY_')){_day={T:'اليوم',M:'بكرة',W:'هذا الأسبوع'}[i.replace('DAY_','')];await bm(_day+' 👍\n\nالمواعيد المتاحة:\n'+times.map(t=>'📅 '+t).join('\n'));so(times.map(t=>({l:'🕐 '+t,v:'TM_'+t})))}
+    else if(i.startsWith('TM_')){_tm=i.replace('TM_','');await bm('أدخل اسمك الكامل:');en();_nx='NAME'}
+    else if(_nx==='NAME'){_nm=i;await bm('شكراً '+i+'! 👋\n\nرقم الجوال:');en();_nx='PHONE'}
+    else if(_nx==='PHONE'){await bm('⏳ جاري التأكيد...');await bm('✅ <b>تم الحجز!</b>\n\n📋 ملخص:\n👤 '+_nm+'\n📞 '+i+'\n🦷 '+_svc+'\n📅 '+_day+'\n🕐 '+_tm+'\n🏥 عيادة الابتسامة\n\n🔔 تذكير قبل ٢٤ ساعة و ٢ ساعة.\n\nيبيك شيء ثاني؟ 😊');_nx=null;so([{l:'📅 حجز ثاني',v:'BOOK'},{l:'🔙 القائمة',v:'START'},{l:'👋 لا، شكراً',v:'BYE'}])}
+    else if(i==='CHK'){await bm('أدخل رقم الجوال أو رقم الموعد:');en();_nx='LOOKUP'}
+    else if(_nx==='LOOKUP'){await bm('📋 الموعد القادم:\n\n📅 الأحد ٢٩ مارس\n🕐 ٥:٠٠ م\n🦷 تنظيف أسنان\n👨‍⚕️ د. أحمد الغامدي\n\nرقم الموعد: #A-1047');_nx=null;so([{l:'❌ إلغاء',v:'CNL'},{l:'🔙 رجوع',v:'START'}])}
+    else if(i==='CNL'){await bm('أدخل رقم الموعد أو الجوال:');en();_nx='CNL_LOOKUP'}
+    else if(_nx==='CNL_LOOKUP'){await bm('⚠️ تأكيد الإلغاء؟');_nx=null;so([{l:'✅ نعم، ألغي',v:'CNL_Y'},{l:'🔙 لا',v:'START'}])}
+    else if(i==='CNL_Y'){await bm('✅ تم الإلغاء.\n\nتحجز موعد ثاني؟');so([{l:'📅 نعم',v:'BOOK'},{l:'👋 لا، شكراً',v:'BYE'}])}
+    else if(i==='INFO'){await bm('🏥 <b>عيادة الابتسامة لطب الأسنان</b>\n\n📍 الرياض، حي الملقا\n🕐 السبت–الخميس: ٤–١٠ م\n📞 الطوارئ: ٠٥٠-XXX-XXXX\n\nد. أحمد الغامدي\nتقويم وزراعة أسنان\n\nتحجز موعد؟ 😊');so([{l:'📅 حجز',v:'BOOK'},{l:'🔙 رجوع',v:'START'}])}
+    else if(i==='BYE'){await bm('الله يعافيك! 😊\n\nالعيادة تتمنى لك يوم سعيد 🦷');O.innerHTML='';setTimeout(()=>so([{l:'📅 حجز',v:'BOOK'},{l:'ℹ️ معلومات',v:'INFO'}]),1500)}
+    else{await bm('ما فهمت رسالتك 😅\n\nاختر من الخيارات:');so([{l:'📅 حجز',v:'BOOK'},{l:'🔍 استعلام',v:'CHK'},{l:'ℹ️ معلومات',v:'INFO'}])}
+}
+window.addEventListener('load',()=>setTimeout(()=>fl('START'),500));
+</script>
 </body>
 </html>
