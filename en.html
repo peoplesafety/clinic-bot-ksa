@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوت حجز العيادات | ClinicBot KSA</title>
-    <meta name="description" content="بوت واتساب ذكي لحجز المواعيد الطبية - حل آلي لعيادات الأسنان والجلدية والمراكز الطبية في السعودية">
+    <title>ClinicBot KSA | Smart Appointment Booking Bot</title>
+    <meta name="description" content="AI-powered WhatsApp booking bot for medical clinics in Saudi Arabia — automated appointments, reminders, and 24/7 availability">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -25,7 +25,7 @@
         }
 
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             min-height: 100vh;
             color: var(--text-primary);
@@ -77,7 +77,7 @@
             font-size: 1.2rem;
             color: #a0b8c8;
             margin-bottom: 2rem;
-            max-width: 500px;
+            max-width: 550px;
         }
 
         .hero .pain-points {
@@ -107,7 +107,7 @@
             padding: 1rem 3rem;
             border-radius: 50px;
             font-size: 1.2rem;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
@@ -117,6 +117,34 @@
         .cta-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--whatsapp-green);
+            border-color: var(--whatsapp-green);
         }
 
         /* Features Section */
@@ -185,10 +213,10 @@
         }
 
         .price-card.popular::before {
-            content: 'الأكثر طلباً';
+            content: 'Most Popular';
             position: absolute;
             top: -12px;
-            right: 20px;
+            left: 20px;
             background: var(--gold);
             color: #1a1a1a;
             padding: 0.2rem 1rem;
@@ -200,7 +228,7 @@
         .price-card h3 { color: white; font-size: 1.1rem; margin-bottom: 0.5rem; }
         .price-card .price { color: var(--whatsapp-green); font-size: 2rem; font-weight: 900; }
         .price-card .price-note { color: #888; font-size: 0.85rem; margin-bottom: 1rem; }
-        .price-card ul { list-style: none; text-align: right; margin-bottom: 1.5rem; }
+        .price-card ul { list-style: none; text-align: left; margin-bottom: 1.5rem; }
         .price-card li { color: #a0b8c8; padding: 0.3rem 0; font-size: 0.9rem; }
         .price-card li::before { content: '✓ '; color: var(--whatsapp-green); }
 
@@ -293,7 +321,7 @@
         .wa-bubble .time {
             font-size: 0.65rem;
             color: var(--text-secondary);
-            text-align: left;
+            text-align: right;
             margin-top: 0.3rem;
         }
 
@@ -310,7 +338,7 @@
             border: 1px solid #ddd;
             border-radius: 20px;
             padding: 0.5rem 1.2rem;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s;
@@ -335,7 +363,7 @@
             border: none;
             border-radius: 20px;
             padding: 0.6rem 1rem;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
             outline: none;
         }
@@ -380,8 +408,6 @@
             30% { transform: translateY(-6px); opacity: 1; }
         }
 
-        .hidden { display: none !important; }
-
         /* Footer */
         .footer {
             background: rgba(0,0,0,0.3);
@@ -393,150 +419,128 @@
 
         .footer a { color: var(--whatsapp-green); text-decoration: none; }
 
-        .lang-switch {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1000;
-            display: flex;
-            gap: 0.5rem;
-        }
-        .lang-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 8px;
-            font-family: "Tajawal", sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .lang-btn:hover, .lang-btn.active {
-            background: var(--whatsapp-green);
-            border-color: var(--whatsapp-green);
-        }
-
-/* Responsive */
+        /* Responsive */
         @media (max-width: 600px) {
             .hero h1 { font-size: 1.8rem; }
             .pain-points { grid-template-columns: 1fr 1fr; }
             .pricing-cards { grid-template-columns: 1fr; }
+            .lang-switch { top: 0.5rem; right: 0.5rem; }
         }
     </style>
 </head>
-<div class="lang-switch">
-        <span class="lang-btn active">العربية</span>
-        <a href="en.html" class="lang-btn">English</a>
-    </div>
 <body>
+    <!-- Language Switcher -->
+    <div class="lang-switch">
+        <a href="index.html" class="lang-btn">العربية</a>
+        <span class="lang-btn active">English</span>
+    </div>
+
     <div class="landing">
         <!-- Hero -->
         <section class="hero">
             <div class="hero-logo">🏥</div>
-            <h1>بوت <span>حجز الذكي</span> لعياداتك</h1>
-            <p class="subtitle">بوت واتساب آلي يحجز المواعيد، يذكّر المرضى، ويمنّع الموعد الفارغ — ٢٤ ساعة باليوم</p>
+            <h1>Smart Booking Bot <span>for Your Clinic</span></h1>
+            <p class="subtitle">An automated WhatsApp bot that books appointments, reminds patients, and eliminates no-shows — 24 hours a day</p>
             
             <div class="pain-points">
                 <div class="pain-card">
                     <div class="icon">📞</div>
-                    <div class="label">مكالمات ضائعة شهرياً</div>
-                    <div class="value">٤٠ - ١٢٠</div>
+                    <div class="label">Missed calls per month</div>
+                    <div class="value">40 – 120</div>
                 </div>
                 <div class="pain-card">
                     <div class="icon">💸</div>
-                    <div class="label">خسارة شهرية تقديرية</div>
-                    <div class="value">٤,٠٠٠ - ١٢,٠٠٠ ر.س</div>
+                    <div class="label">Estimated monthly loss</div>
+                    <div class="value">SAR 4,000 – 12,000</div>
                 </div>
                 <div class="pain-card">
                     <div class="icon">⏰</div>
-                    <div class="label">نسبة عدم الحضور</div>
-                    <div class="value">٢٠ - ٣٠%</div>
+                    <div class="label">No-show rate</div>
+                    <div class="value">20 – 30%</div>
                 </div>
             </div>
 
             <button class="cta-btn" onclick="document.getElementById('demo').scrollIntoView({behavior:'smooth'})">
-                جرّب البوت الآن 👇
+                Try the bot now 👇
             </button>
         </section>
 
         <!-- Features -->
         <section class="features">
-            <h2>مميزات البوت</h2>
+            <h2>Bot Features</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="emoji">💬</div>
-                    <h3>حجز بالعربي والإنجليزي</h3>
-                    <p>يستقبل الرسائل ويرد باللغة المفضلة للعميل تلقائياً</p>
+                    <h3>Bilingual Booking</h3>
+                    <p>Receives messages and responds in Arabic or English automatically based on the patient's preference</p>
                 </div>
                 <div class="feature-card">
                     <div class="emoji">📅</div>
-                    <h3>عرض المواعيد المتاحة</h3>
-                    <p>يربط مباشرة بنظام العيادة ويُظهر الأوقات الفارغة</p>
+                    <h3>Available Slots Display</h3>
+                    <p>Connects directly to the clinic's system and shows real-time open time slots</p>
                 </div>
                 <div class="feature-card">
                     <div class="emoji">🔔</div>
-                    <h3>تذكير آلي</h3>
-                    <p>يرسل تذكير قبل الموعد بـ ٢٤ ساعة و ٢ ساعة — يقلل عدم الحضور ٦٠%</p>
+                    <h3>Automated Reminders</h3>
+                    <p>Sends reminders 24 hours and 2 hours before the appointment — reduces no-shows by 60%</p>
                 </div>
                 <div class="feature-card">
                     <div class="emoji">📋</div>
-                    <h3>تقرير يومي</h3>
-                    <p>ملخص يومي للحجوزات والإلغاءات والتأكيدات على واتساب</p>
+                    <h3>Daily Reports</h3>
+                    <p>Daily summary of bookings, cancellations, and confirmations sent via WhatsApp</p>
                 </div>
                 <div class="feature-card">
                     <div class="emoji">🕐</div>
-                    <h3>يعمل ٢٤/٧</h3>
-                    <p>لا ينام، لا يمرض، لا يغيب — يحجز بعد الساعة ١٢ بدون موظف ليلي</p>
+                    <h3>24/7 Availability</h3>
+                    <p>Never sleeps, never gets sick — books appointments after hours with no night-shift staff needed</p>
                 </div>
                 <div class="feature-card">
                     <div class="emoji">🔄</div>
-                    <h3>إعادة الجدولة</h3>
-                    <p>العميل يُلغي ويعيد الحجز بنفسه بدون تدخل الموظفين</p>
+                    <h3>Self-Service Rescheduling</h3>
+                    <p>Patients cancel and rebook on their own without any staff intervention</p>
                 </div>
             </div>
         </section>
 
         <!-- Pricing -->
         <section class="pricing">
-            <h2>باقات الأسعار</h2>
+            <h2>Pricing Plans</h2>
             <div class="pricing-cards">
                 <div class="price-card">
-                    <h3>الباقة الأساسية</h3>
-                    <div class="price">٣,٠٠٠ ر.س</div>
-                    <div class="price-note">دفعة واحدة + إعداد</div>
+                    <h3>Starter</h3>
+                    <div class="price">SAR 3,000</div>
+                    <div class="price-note">One-time setup fee</div>
                     <ul>
-                        <li>بوت حجز مواعيد واحد</li>
-                        <li>لغة عربية أو إنجليزية</li>
-                        <li>تذكير آلي للمواعيد</li>
-                        <li>تقرير أسبوعي</li>
-                        <li>دعم فني ٣ أشهر</li>
+                        <li>Single booking bot</li>
+                        <li>Arabic or English</li>
+                        <li>Automated appointment reminders</li>
+                        <li>Weekly report</li>
+                        <li>3 months technical support</li>
                     </ul>
                 </div>
                 <div class="price-card popular">
-                    <h3>الباقة المتقدمة</h3>
-                    <div class="price">٥,٠٠٠ ر.س</div>
-                    <div class="price-note">دفعة واحدة + ٨٠٠ ر.س/شهر</div>
+                    <h3>Professional</h3>
+                    <div class="price">SAR 5,000</div>
+                    <div class="price-note">One-time + SAR 800/month</div>
                     <ul>
-                        <li>كل مميزات الأساسية</li>
-                        <li>ثنائي اللغة (عربي + إنجليزي)</li>
-                        <li>ربط مع نظام العيادة</li>
-                        <li>تقرير يومي آلي</li>
-                        <li>إعادة جدولة ذاتية</li>
-                        <li>دعم فني ١٢ شهر</li>
+                        <li>Everything in Starter</li>
+                        <li>Bilingual (Arabic + English)</li>
+                        <li>Clinic system integration</li>
+                        <li>Automated daily reports</li>
+                        <li>Self-service rescheduling</li>
+                        <li>12 months technical support</li>
                     </ul>
                 </div>
                 <div class="price-card">
-                    <h3>باقة العيادات المتعددة</h3>
-                    <div class="price">١٠,٠٠٠ ر.س</div>
-                    <div class="price-note">دفعة واحدة + ١,٥٠٠ ر.س/شهر</div>
+                    <h3>Multi-Branch</h3>
+                    <div class="price">SAR 10,000</div>
+                    <div class="price-note">One-time + SAR 1,500/month</div>
                     <ul>
-                        <li>كل مميزات المتقدمة</li>
-                        <li>حتى ٥ فروع</li>
-                        <li>لوحة تحكم مركزية</li>
-                        <li>إحصائيات متقدمة</li>
-                        <li>أولوية في الدعم</li>
+                        <li>Everything in Professional</li>
+                        <li>Up to 5 branches</li>
+                        <li>Centralized dashboard</li>
+                        <li>Advanced analytics</li>
+                        <li>Priority support</li>
                     </ul>
                 </div>
             </div>
@@ -544,29 +548,29 @@
 
         <!-- Interactive Demo -->
         <section class="demo-section" id="demo">
-            <h2>جرّب البوت مباشرة</h2>
-            <p class="demo-sub">تفاعل مع محاكاة حقيقية لبوت حجز العيادة</p>
+            <h2>Try the Bot Live</h2>
+            <p class="demo-sub">Interact with a real simulation of the clinic booking bot</p>
             
             <div class="whatsapp-container">
                 <div class="wa-header">
                     <div class="wa-avatar">🦷</div>
                     <div>
-                        <div class="wa-name">عيادة الابتسامة لطب الأسنان</div>
-                        <div class="wa-status">متصل الآن</div>
+                        <div class="wa-name">Al-Ibtisama Dental Clinic</div>
+                        <div class="wa-status">Online now</div>
                     </div>
                 </div>
                 <div class="wa-chat" id="chatArea"></div>
                 <div class="wa-options" id="optionsArea"></div>
                 <div class="wa-input-area">
-                    <input class="wa-input" id="userInput" type="text" placeholder="اكتب رسالتك..." disabled>
+                    <input class="wa-input" id="userInput" type="text" placeholder="Type your message..." disabled>
                     <button class="wa-send" id="sendBtn" disabled onclick="sendUserMessage()">➤</button>
                 </div>
             </div>
         </section>
 
         <footer class="footer">
-            <p>مشروع ClinicBot KSA — حل آلي لحجز المواعيد الطبية</p>
-            <p style="margin-top: 0.5rem;">من تصميم <a href="#">PeopleSafetyLab</a></p>
+            <p>ClinicBot KSA — Automated medical appointment booking</p>
+            <p style="margin-top: 0.5rem;">Built by <a href="#">PeopleSafetyLab</a></p>
         </footer>
     </div>
 
@@ -584,7 +588,6 @@
         function addBotMessage(text, delay = 0) {
             return new Promise(resolve => {
                 setTimeout(() => {
-                    // Show typing indicator
                     const typing = document.createElement('div');
                     typing.className = 'typing-indicator';
                     typing.innerHTML = '<span></span><span></span><span></span>';
@@ -595,7 +598,7 @@
                         chatArea.removeChild(typing);
                         const bubble = document.createElement('div');
                         bubble.className = 'wa-bubble bot';
-                        bubble.innerHTML = text + '<div class="time">' + getTime() + '</div>';
+                        bubble.innerHTML = text.replace(/\n/g, '<br>') + '<div class="time">' + getTime() + '</div>';
                         chatArea.appendChild(bubble);
                         chatArea.scrollTop = chatArea.scrollHeight;
                         resolve();
@@ -650,49 +653,47 @@
             if (e.key === 'Enter') sendUserMessage();
         });
 
-        // Conversation Flow
         async function handleFlow(input) {
             disableInput();
 
             switch(input) {
                 case 'START':
-                    await addBotMessage('أهلاً وسهلاً! 🦷\n\nأنا مساعد حجوزات عيادة الابتسامة لطب الأسنان.\n\nكيف أقدر أساعدك اليوم؟', 300);
+                    await addBotMessage('Hello and welcome! 🦷\n\nI\'m the booking assistant for Al-Ibtisama Dental Clinic.\n\nHow can I help you today?', 300);
                     showOptions([
-                        { label: '📅 حجز موعد جديد', value: 'NEW_APPT' },
-                        { label: '🔍 الاستعلام عن موعد', value: 'CHECK_APPT' },
-                        { label: '❌ إلغاء موعد', value: 'CANCEL_APPT' },
-                        { label: 'ℹ️ معلومات العيادة', value: 'INFO' }
+                        { label: '📅 Book new appointment', value: 'NEW_APPT' },
+                        { label: '🔍 Check appointment', value: 'CHECK_APPT' },
+                        { label: '❌ Cancel appointment', value: 'CANCEL_APPT' },
+                        { label: 'ℹ️ Clinic information', value: 'INFO' }
                     ]);
                     break;
 
                 case 'NEW_APPT':
-                    await addBotMessage('تمام! خلنا نحجز لك موعد 📅\n\nأي خدمة تحتاج؟', 300);
+                    await addBotMessage('Sure! Let\'s book you an appointment 📅\n\nWhich service do you need?', 300);
                     showOptions([
-                        { label: '🦷 فحص أسنان عام', value: 'SERVICE_GENERAL' },
-                        { label: '✨ تنظيف وتبييض', value: 'SERVICE_CLEANING' },
-                        { label: '🔧 حشو أو علاج عصب', value: 'SERVICE_FILING' },
-                        { label: '🎁 تثبيت أسنان', value: 'SERVICE_IMPLANT' }
+                        { label: '🦷 General dental checkup', value: 'SERVICE_GENERAL' },
+                        { label: '✨ Cleaning & whitening', value: 'SERVICE_CLEANING' },
+                        { label: '🔧 Filling or root canal', value: 'SERVICE_FILING' },
+                        { label: '🎁 Dental implants', value: 'SERVICE_IMPLANT' }
                     ]);
                     break;
 
                 case 'CHECK_APPT':
-                    await addBotMessage('أبغى أتحقق من موعدك 📋\n\nأدخل رقم الجوال أو رقم الموعد:', 300);
+                    await addBotMessage('Let me look up your appointment 📋\n\nPlease enter your phone number or appointment ID:', 300);
                     enableInput();
-                    // next input goes to CHECK_LOOKUP
                     userInput.setAttribute('data-next', 'CHECK_LOOKUP');
                     break;
 
                 case 'CANCEL_APPT':
-                    await addBotMessage('للأسف تبي تلغي الموعد 😔\n\nأدخل رقم الموعد أو رقم الجوال عشان أبحث عنه:', 300);
+                    await addBotMessage('Sorry to hear you need to cancel 😔\n\nPlease enter your appointment ID or phone number:', 300);
                     enableInput();
                     userInput.setAttribute('data-next', 'CANCEL_LOOKUP');
                     break;
 
                 case 'INFO':
-                    await addBotMessage('🏥 عيادة الابتسامة لطب الأسنان\n\n📍 الرياض، حي الملقا، شارع الأمير محمد بن عبدالعزيز\n🕐 من السبت للخميس: ٤:٠٠ م - ١٠:٠٠ م\n📞 للطوارئ: ٠٥٠-XXX-XXXX\n\nالدكتور: د. أحمد الغامدي\nتخصص: تقويم وزراعة أسنان\n\nهل تبي تحجز موعد؟ 😊', 300);
+                    await addBotMessage('🏥 Al-Ibtisama Dental Clinic\n\n📍 Riyadh, Al-Malqa District, Prince Mohammed bin Abdulaziz St.\n🕐 Sat–Thu: 4:00 PM – 10:00 PM\n📞 Emergency: 050-XXX-XXXX\n\nDoctor: Dr. Ahmed Al-Ghamdi\nSpecialty: Orthodontics & Implants\n\nWould you like to book an appointment? 😊', 300);
                     showOptions([
-                        { label: '📅 نعم، حجز موعد', value: 'NEW_APPT' },
-                        { label: '🔙 رجوع', value: 'START' }
+                        { label: '📅 Yes, book now', value: 'NEW_APPT' },
+                        { label: '🔙 Back', value: 'START' }
                     ]);
                     break;
 
@@ -701,129 +702,128 @@
                 case 'SERVICE_FILING':
                 case 'SERVICE_IMPLANT':
                     const serviceNames = {
-                        'SERVICE_GENERAL': 'فحص أسنان عام',
-                        'SERVICE_CLEANING': 'تنظيف وتبييض',
-                        'SERVICE_FILING': 'حشو أو علاج عصب',
-                        'SERVICE_IMPLANT': 'تثبيت أسنان'
+                        'SERVICE_GENERAL': 'General dental checkup',
+                        'SERVICE_CLEANING': 'Cleaning & whitening',
+                        'SERVICE_FILING': 'Filling or root canal',
+                        'SERVICE_IMPLANT': 'Dental implants'
                     };
                     const servicePrices = {
-                        'SERVICE_GENERAL': '١٥٠',
-                        'SERVICE_CLEANING': '٣٠٠',
-                        'SERVICE_FILING': '٤٠٠-٨٠٠',
-                        'SERVICE_IMPLANT': '٣,٠٠٠-٨,٠٠٠'
+                        'SERVICE_GENERAL': '150',
+                        'SERVICE_CLEANING': '300',
+                        'SERVICE_FILING': '400–800',
+                        'SERVICE_IMPLANT': '3,000–8,000'
                     };
                     window._selectedService = serviceNames[input];
-                    await addBotMessage(`✅ اخترت: ${serviceNames[input]}\n\n💰 السعر التقريبي: ${servicePrices[input]} ر.س\n\nأي يوم يناسبك؟`, 300);
+                    await addBotMessage('✅ Selected: ' + serviceNames[input] + '\n\n💰 Estimated price: SAR ' + servicePrices[input] + '\n\nWhich day works for you?', 300);
                     showOptions([
-                        { label: '📅 اليوم', value: 'DAY_TODAY' },
-                        { label: '📅 بكرة', value: 'DAY_TOMORROW' },
-                        { label: '📅 هذا الأسبوع', value: 'DAY_WEEK' }
+                        { label: '📅 Today', value: 'DAY_TODAY' },
+                        { label: '📅 Tomorrow', value: 'DAY_TOMORROW' },
+                        { label: '📅 This week', value: 'DAY_WEEK' }
                     ]);
                     break;
 
                 case 'DAY_TODAY':
                 case 'DAY_TOMORROW':
                 case 'DAY_WEEK':
-                    const dayLabels = { 'DAY_TODAY': 'اليوم', 'DAY_TOMORROW': 'بكرة', 'DAY_WEEK': 'هذا الأسبوع' };
+                    const dayLabels = { 'DAY_TODAY': 'Today', 'DAY_TOMORROW': 'Tomorrow', 'DAY_WEEK': 'This week' };
                     window._selectedDay = dayLabels[input];
-                    await addBotMessage(`تمام، ${dayLabels[input]} 👍\n\nالمواعيد المتاحة:`);
-                    await addBotMessage(`📅 ٤:٠٠ م - متاح\n📅 ٤:٣٠ م - متاح\n📅 ٥:٠٠ م - محجوز\n📅 ٥:٣٠ م - متاح\n📅 ٦:٠٠ م - متاح\n📅 ٦:٣٠ م - متاح`, 300);
+                    await addBotMessage('Great, ' + dayLabels[input] + '! 👍\n\nAvailable time slots:');
+                    await addBotMessage('📅 4:00 PM – Available\n📅 4:30 PM – Available\n📅 5:00 PM – Booked\n📅 5:30 PM – Available\n📅 6:00 PM – Available\n📅 6:30 PM – Available', 300);
                     showOptions([
-                        { label: '🕐 ٤:٠٠ م', value: 'TIME_1600' },
-                        { label: '🕐 ٤:٣٠ م', value: 'TIME_1630' },
-                        { label: '🕐 ٥:٣٠ م', value: 'TIME_1730' },
-                        { label: '🕐 ٦:٠٠ م', value: 'TIME_1800' },
-                        { label: '🕐 ٦:٣٠ م', value: 'TIME_1830' },
-                        { label: '🔙 رجوع للخدمات', value: 'NEW_APPT' }
+                        { label: '🕐 4:00 PM', value: 'TIME_1600' },
+                        { label: '🕐 4:30 PM', value: 'TIME_1630' },
+                        { label: '🕐 5:30 PM', value: 'TIME_1730' },
+                        { label: '🕐 6:00 PM', value: 'TIME_1800' },
+                        { label: '🕐 6:30 PM', value: 'TIME_1830' },
+                        { label: '🔙 Back to services', value: 'NEW_APPT' }
                     ]);
                     break;
 
                 default:
                     if (input.startsWith('TIME_')) {
                         const timeMap = {
-                            'TIME_1600': '٤:٠٠ م', 'TIME_1630': '٤:٣٠ م',
-                            'TIME_1730': '٥:٣٠ م', 'TIME_1800': '٦:٠٠ م', 'TIME_1830': '٦:٣٠ م'
+                            'TIME_1600': '4:00 PM', 'TIME_1630': '4:30 PM',
+                            'TIME_1730': '5:30 PM', 'TIME_1800': '6:00 PM', 'TIME_1830': '6:30 PM'
                         };
                         const timeStr = timeMap[input] || input;
-                        await addBotMessage('الرجاء إدخال اسمك الكامل:', 300);
+                        await addBotMessage('Please enter your full name:', 300);
                         enableInput();
                         window._selectedTime = timeStr;
                         userInput.setAttribute('data-next', 'NAME_INPUT');
                     } else if (userInput.getAttribute('data-next') === 'NAME_INPUT') {
                         window._userName = input;
-                        await addBotMessage('شكراً ' + input + ' 👋\n\nأدخل رقم الجوال:', 300);
+                        await addBotMessage('Thank you, ' + input + '! 👋\n\nPlease enter your phone number:', 300);
                         enableInput();
                         userInput.setAttribute('data-next', 'PHONE_INPUT');
                     } else if (userInput.getAttribute('data-next') === 'PHONE_INPUT') {
                         window._userPhone = input;
-                        await addBotMessage('⏳ جاري تأكيد الحجز...', 500);
+                        await addBotMessage('⏳ Confirming your booking...', 500);
                         await addBotMessage(
-                            `✅ تم الحجز بنجاح!\n\n` +
-                            `📋 ملخص الحجز:\n` +
-                            `👤 الاسم: ${window._userName}\n` +
-                            `📞 الجوال: ${input}\n` +
-                            `🦷 الخدمة: ${window._selectedService}\n` +
-                            `📅 اليوم: ${window._selectedDay}\n` +
-                            `🕐 الوقت: ${window._selectedTime}\n` +
-                            `🏥 العيادة: عيادة الابتسامة\n\n` +
-                            `🔔 رح أذكّرك قبل الموعد بـ ٢٤ ساعة و ٢ ساعة.\n\n` +
-                            `هل تحتاج شيء ثاني؟ 😊`, 1000
+                            '✅ Booking confirmed!\n\n' +
+                            '📋 Booking Summary:\n' +
+                            '👤 Name: ' + window._userName + '\n' +
+                            '📞 Phone: ' + input + '\n' +
+                            '🦷 Service: ' + window._selectedService + '\n' +
+                            '📅 Day: ' + window._selectedDay + '\n' +
+                            '🕐 Time: ' + window._selectedTime + '\n' +
+                            '🏥 Clinic: Al-Ibtisama Dental\n\n' +
+                            '🔔 You\'ll receive reminders 24 hours and 2 hours before your appointment.\n\n' +
+                            'Anything else I can help with? 😊', 1000
                         );
                         showOptions([
-                            { label: '📅 حجز موعد آخر', value: 'NEW_APPT' },
-                            { label: '🔙 القائمة الرئيسية', value: 'START' },
-                            { label: '👋 لا، شكراً', value: 'BYE' }
+                            { label: '📅 Book another', value: 'NEW_APPT' },
+                            { label: '🔙 Main menu', value: 'START' },
+                            { label: '👋 No, thanks!', value: 'BYE' }
                         ]);
                         userInput.removeAttribute('data-next');
                     } else if (userInput.getAttribute('data-next') === 'CHECK_LOOKUP') {
                         await addBotMessage(
-                            `📋 الموعد القادم:\n\n` +
-                            `📅 تاريخ: الأحد ٢٩ مارس ٢٠٢٦\n` +
-                            `🕐 الوقت: ٥:٠٠ م\n` +
-                            `🦷 الخدمة: تنظيف أسنان\n` +
-                            `👨‍⚕️ الطبيب: د. أحمد الغامدي\n\n` +
-                            `رقم الموعد: #A-1047`, 300
+                            '📋 Your upcoming appointment:\n\n' +
+                            '📅 Date: Sunday, March 29, 2026\n' +
+                            '🕐 Time: 5:00 PM\n' +
+                            '🦷 Service: Teeth cleaning\n' +
+                            '👨‍⚕️ Doctor: Dr. Ahmed Al-Ghamdi\n\n' +
+                            'Appointment ID: #A-1047', 300
                         );
                         showOptions([
-                            { label: '❌ إلغاء هذا الموعد', value: 'CANCEL_APPT' },
-                            { label: '🔙 رجوع', value: 'START' }
+                            { label: '❌ Cancel this appointment', value: 'CANCEL_APPT' },
+                            { label: '🔙 Back', value: 'START' }
                         ]);
                         userInput.removeAttribute('data-next');
                     } else if (userInput.getAttribute('data-next') === 'CANCEL_LOOKUP') {
-                        await addBotMessage('⚠️ تأكيد إلغاء الموعد؟', 300);
+                        await addBotMessage('⚠️ Confirm cancellation?', 300);
                         showOptions([
-                            { label: '✅ نعم، ألغي', value: 'CONFIRM_CANCEL' },
-                            { label: '🔙 لا، رجوع', value: 'START' }
+                            { label: '✅ Yes, cancel', value: 'CONFIRM_CANCEL' },
+                            { label: '🔙 No, go back', value: 'START' }
                         ]);
                         userInput.removeAttribute('data-next');
                     } else if (input === 'CONFIRM_CANCEL') {
-                        await addBotMessage('✅ تم إلغاء الموعد بنجاح.\n\nهل تبي تحجز موعد ثاني؟', 300);
+                        await addBotMessage('✅ Appointment cancelled successfully.\n\nWould you like to book a new one?', 300);
                         showOptions([
-                            { label: '📅 نعم', value: 'NEW_APPT' },
-                            { label: '👋 لا، شكراً', value: 'BYE' }
+                            { label: '📅 Yes', value: 'NEW_APPT' },
+                            { label: '👋 No, thanks', value: 'BYE' }
                         ]);
                     } else if (input === 'BYE') {
-                        await addBotMessage('الله يعافيك! 😊\n\nعيادة الابتسامة تتمنى لك يوم سعيد 🦷✨\n\nإذا احتجت أي شيء، رجع لنا أي وقت!', 300);
+                        await addBotMessage('Thank you! 😊\n\nAl-Ibtisama Clinic wishes you a great day! 🦷✨\n\nCome back anytime you need us!', 300);
                         optionsArea.innerHTML = '';
                         setTimeout(() => {
                             showOptions([
-                                { label: '📅 حجز موعد', value: 'NEW_APPT' },
-                                { label: 'ℹ️ معلومات العيادة', value: 'INFO' }
+                                { label: '📅 Book appointment', value: 'NEW_APPT' },
+                                { label: 'ℹ️ Clinic info', value: 'INFO' }
                             ]);
                         }, 2000);
                     } else {
-                        await addBotMessage('عذراً، ما فهمت رسالتك 😅\n\nاختر من الخيارات التالية:', 300);
+                        await addBotMessage('Sorry, I didn\'t understand that 😅\n\nPlease choose from the options:', 300);
                         showOptions([
-                            { label: '📅 حجز موعد', value: 'NEW_APPT' },
-                            { label: '🔍 استعلام', value: 'CHECK_APPT' },
-                            { label: 'ℹ️ معلومات', value: 'INFO' }
+                            { label: '📅 Book appointment', value: 'NEW_APPT' },
+                            { label: '🔍 Check appointment', value: 'CHECK_APPT' },
+                            { label: 'ℹ️ Clinic info', value: 'INFO' }
                         ]);
                     }
                     break;
             }
         }
 
-        // Start the demo on page load
         window.addEventListener('load', () => {
             setTimeout(() => handleFlow('START'), 500);
         });
